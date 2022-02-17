@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Group;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
@@ -22,8 +23,13 @@ class UserFactory extends Factory
             'email' => $this->faker->unique()->safeEmail(),
             'email_verified_at' => now(),
             'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
+            'role' => $this->faker->randomElement(['admin', 'teacher', 'student', 'guest']),
+            'gender' => $this->faker->randomElement(['male', 'female', 'unicorn']),
+            'age' => $this->faker->numberBetween($min = 14, $max = 50),
+            'group_id' => Group::inRandomOrder()->first()->id,
             'remember_token' => Str::random(10),
         ];
+
     }
 
     /**

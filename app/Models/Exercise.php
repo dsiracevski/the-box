@@ -27,10 +27,12 @@ class Exercise extends Model
         return $this->belongsTo(User::class);
     }
 
+
     public function candidates()
     {
         return $this->belongsToMany(User::class, 'exercise_user', 'exercise_id', 'user_id');
     }
+
 
     public function sentences()
     {

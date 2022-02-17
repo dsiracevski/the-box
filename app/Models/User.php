@@ -49,15 +49,18 @@ class User extends Authenticatable
         return $this->belongsTo(Group::class);
     }
 
+
     public function sentences()
     {
-        return $this->hasMany(Sentence::class);
+        return $this->hasMany(Sentence::class, 'author_id');
     }
+
 
     public function exercises()
     {
-        return $this->belongsToMany(Exercise::class, 'exercise_user', 'user_id', 'exercise_id');
+        return $this->belongsToMany(Exercise::class, 'exercise_user', 'teacher_id', 'exercise_id');
     }
+
 
     public function subjects()
     {
@@ -68,6 +71,12 @@ class User extends Authenticatable
     public function groups()
     {
         return $this->belongsToMany(Group::class, 'group_subject', 'teacher_id', 'group_id');
+    }
+
+
+    public function setPasswordAttribute($password)
+    {
+        $this->attributes['password'] = bcrypt($password);
     }
 
 

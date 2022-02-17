@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-class VerbsController extends Controller
+class AdverbController extends Controller
 {
     //
 }

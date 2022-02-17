@@ -27,6 +27,7 @@ class Subject extends Model
         return $this->belongsToMany(Group::class, 'group_subject', 'subject_id', 'group_id');
     }
 
+
     public function teachers()
     {
         return $this->belongsToMany(User::class, 'group_subject', 'subject_id', 'teacher_id');
