@@ -17,9 +17,17 @@ class SentenceFactory extends Factory
      */
     public function definition()
     {
+        $keyword = $this->faker->word();
+
+        $sentence = $this->faker->sentence()
+            . " "
+            . $keyword
+            . " "
+            . $this->faker->sentence();
+
         return [
-            'body' => $this->faker->sentence(),
-            'keyword' => $this->faker->word(),
+            'body' => $sentence,
+            'keyword' => $keyword,
             'author_id' => User::inRandomOrder()->first()->id
         ];
     }

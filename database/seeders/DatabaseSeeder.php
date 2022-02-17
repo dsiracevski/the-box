@@ -21,7 +21,7 @@ class DatabaseSeeder extends Seeder
     {
         Group::factory(3)->create();
 
-        User::factory(1)->create([
+        User::factory()->create([
             'role' => 'admin'
         ]);
 
@@ -33,18 +33,26 @@ class DatabaseSeeder extends Seeder
             'role' => 'student'
         ]);
 
-        User::factory(1)->create([
+        User::factory()->create([
             'role' => 'guest'
         ]);
 
         Sentence::factory(54)->create();
 
-        Subject::factory(3)->hasAttached(
-            Group::all()->random(Group::all()->count()), ['teacher_id' => User::where('role', '=','teacher')->get()->random()->id])->create();
+        Subject::factory(3)
+            ->create()
+            ->each(function (Subject $subject) {
+                $subject->groups()->attach(
+                    Group::inRandomOrder()->first(),
+                    ['teacher_id' => User::where('role', '=', 'teacher')->inRandomOrder()->first()->id]
+                );
+            });
 
-        Exercise::factory(10)->hasAttached(Sentence::all()->random(10))->create()->each(function (Exercise $exercise) {
-            $exercise->candidates()->attach(User::all()->random());
-        });
-
+        Exercise::factory(10)
+            ->hasAttached(Sentence::inRandomOrder()->limit(10)->get())
+            ->create()
+            ->each(function (Exercise $exercise) {
+                $exercise->candidates()->attach(User::inRandomOrder()->first());
+            });
     }
 }
