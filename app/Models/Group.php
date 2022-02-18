@@ -27,10 +27,12 @@ class Group extends Model
         return $this->hasMany(User::class)->whereRole('student');
     }
 
+
     public function subjects()
     {
         return $this->belongsToMany(Subject::class, 'group_subject', 'group_id', 'subject_id');
     }
+
 
     public function teachers()
     {
