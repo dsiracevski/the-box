@@ -13,7 +13,7 @@ class AuthController extends Controller
     public function create()
     {
         if (isset(auth()->user()->is_admin) && !auth()->user()->is_admin) {
-            return redirect(route('viewDirections'));
+            return redirect(route('goHome'));
         }
         return view('auth.login');
     }
@@ -35,10 +35,10 @@ class AuthController extends Controller
 
         if (Auth::attempt($attributes)) {
             if (!auth()->user()->is_admin) {
-                return redirect(route('viewDirections'));
+                return redirect(route('goHome'));
             }
 
-            return redirect(route('adminView'));
+            return redirect(route('goHome'));
         }
 
         throw ValidationException::withMessages([
@@ -51,7 +51,7 @@ class AuthController extends Controller
     {
         auth()->logout();
 
-        return redirect('/');
+        return redirect(route('goHome'));
     }
 
 

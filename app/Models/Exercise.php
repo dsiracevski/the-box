@@ -16,7 +16,7 @@ class Exercise extends Model
      */
     protected $guarded = [];
 
-
+//protected $casts = 'author';
     /**
      *
      * Relationships

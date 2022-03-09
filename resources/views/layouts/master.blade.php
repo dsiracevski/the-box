@@ -7,11 +7,15 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link href="{{ asset('js/app.js') }}" rel="script">
     <title>The Box</title>
 </head>
-<body>
-    <div class="container mx-auto px-5">
+<body class="bg-gray-100">
+    @include('layouts.navbar')
+
+    <div class="container m-auto px-5 w-full place-content-center">
         @yield('content')
+
     </div>
 </body>
 </html>
