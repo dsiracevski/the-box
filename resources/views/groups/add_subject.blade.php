@@ -17,7 +17,7 @@
             </div>
         @endif
 
-        <form action="{{route('storeSubject', [$group])}}" method="POST">
+        <form action="{{route('store-group-subject', $group)}}" method="POST">
             @csrf
 
             <div class="flex my-5 rounded-xl bg-white shadow-xl w-max mx-auto p-3 items-center">

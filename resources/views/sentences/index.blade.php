@@ -23,6 +23,10 @@
         </tbody>
     </table>
 
-
+    <div class="container rounded-xl bg-white p-3">
+        <div class="w-max bg-purple-500 rounded-xl text-md p-2">
+            <a href="{{route('create-sentence')}}">Додади нова реченица</a>
+        </div>
+    </div>
 
 @endsection

@@ -11,30 +11,40 @@
                 </svg>
                 <span class="ml-2 text-xl font-bold tracking-wide text-gray-800 uppercase">The Box</span>
             </a>
-            <ul class="flex items-center hidden space-x-8 lg:flex">
-                <li><a href="{{route('viewExercises')}}"
-                       class="font-medium tracking-wide text-gray-700 transition-colors duration-200 hover:text-bg-purple-500">Вежби</a>
-                </li>
-                <li><a href="{{route('viewSentences')}}"
-                       class="font-medium tracking-wide text-gray-700 transition-colors duration-200 hover:text-bg-purple-500">Реченици</a>
-                </li>
-                <li><a href="{{route('viewSubjects')}}"
-                       class="font-medium tracking-wide text-gray-700 transition-colors duration-200 hover:text-bg-purple-500">Предмети</a>
-                </li>
-                <li><a href="{{route('viewExercises')}}"
-                       class="font-medium tracking-wide text-gray-700 transition-colors duration-200 hover:text-bg-purple-500">Активности</a>
-                </li>
-                <li><a href="{{route('viewGroups')}}"
-                       class="font-medium tracking-wide text-gray-700 transition-colors duration-200 hover:text-bg-purple-500">Групи</a>
-                </li><li><a href="{{route('viewUsers')}}"
-                       class="font-medium tracking-wide text-gray-700 transition-colors duration-200 hover:text-bg-purple-500">Корисници</a>
-                </li>
-            </ul>
+
+            @auth
+
+                <ul class="flex items-center hidden space-x-8 lg:flex">
+                    <li><a href="{{route('viewExercises')}}"
+                           class="font-medium tracking-wide text-gray-700 transition-colors duration-200 hover:text-bg-purple-500">Вежби</a>
+                    </li>
+                    <li><a href="{{route('index-sentences')}}"
+                           class="font-medium tracking-wide text-gray-700 transition-colors duration-200 hover:text-bg-purple-500">Реченици</a>
+                    </li>
+                    <li><a href="{{route('viewSubjects')}}"
+                           class="font-medium tracking-wide text-gray-700 transition-colors duration-200 hover:text-bg-purple-500">Предмети</a>
+                    </li>
+                    <li><a href="{{route('viewExercises')}}"
+                           class="font-medium tracking-wide text-gray-700 transition-colors duration-200 hover:text-bg-purple-500">Активности</a>
+                    </li>
+
+                    <li><a href="{{route('viewGroups')}}"
+                           class="font-medium tracking-wide text-gray-700 transition-colors duration-200 hover:text-bg-purple-500">Групи</a>
+                    </li>
+
+                    <li><a href="{{route('viewUsers')}}"
+                           class="font-medium tracking-wide text-gray-700 transition-colors duration-200 hover:text-bg-purple-500">Корисници</a>
+                    </li>
+                </ul>
+
+            @endauth
+
         </div>
         <ul class="flex items-center hidden space-x-8 lg:flex">
             @if(!auth()->user())
                 <li><a href="{{route('login')}}"
-                       class="font-medium tracking-wide text-gray-700 transition-colors duration-200 hover:text-bg-purple-500">Log in</a></li>
+                       class="font-medium tracking-wide text-gray-700 transition-colors duration-200 hover:text-bg-purple-500">Log
+                        in</a></li>
                 <li class="">
                     <a
                         href="{{route('registerView')}}"
@@ -46,7 +56,10 @@
                 <form action="{{route('destroySession')}}" method="POST">
                     @csrf
                     <li>
-                        <button type="submit" class="inline-flex items-center justify-center h-12 px-6 rounded-xl shadow-md bg-purple-500">Излез</button>
+                        <button type="submit"
+                                class="inline-flex items-center justify-center h-12 px-6 rounded-xl shadow-md bg-purple-500">
+                            Излез
+                        </button>
                     </li>
                 </form>
             @endif

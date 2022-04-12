@@ -17,6 +17,10 @@ class GroupController extends Controller
         ]);
     }
 
+    public function create()
+    {
+        return view('groups.store');
+    }
 
     public function store()
     {
@@ -24,8 +28,7 @@ class GroupController extends Controller
         $user = auth()->user();
 
         $attributes = request()->validate([
-            'name' => 'required',
-            'type' => ''
+            'name' => 'required'
         ]);
 
         try {
@@ -80,8 +83,7 @@ class GroupController extends Controller
     public function viewSubjects(Group $group)
     {
         return view('groups.subjects', [
-            'group' => $group,
-            'subjects' => $group->subjects()->get()
+            'group' => Group::with('subjects', 'teachers')->findOrFail($group->id)
         ]);
     }
 
@@ -93,7 +95,7 @@ class GroupController extends Controller
         ]);
     }
 
-    public function addSubject(Group $group)
+    public function addGroupSubject(Group $group)
     {
         return view('groups.add_subject', [
             'group' => $group,
@@ -102,17 +104,83 @@ class GroupController extends Controller
         ]);
     }
 
-    public function storeSubject(Group $group, Request $request)
+    /**
+     * @param Group $group
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
+    public function addGroupStudent(Group $group)
+    {
+        return view('groups.add_student', [
+            'students' => User::whereRole('student')->whereDoesntHave('group')->orderBy('id')->get(),
+            'group' => $group
+        ]);
+    }
+
+    /**
+     * @param Group $group
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
+    public function storeGroupStudent(Group $group)
     {
 
-//        dd($request->subject_id);
+        $student = User::whereId(request()->student_id)->first();
 
         try {
+            $group->students()->save($student);
+            return redirect(route('add-group-student', $group))->with('message', ['text' => 'Ученикот е додаден', 'type' => 'success']);
+        } catch (\Exception $e) {
+            return redirect(route('add-group-student', $group))->with('message', ['text' => 'Обидете се повторно!', 'type' => 'danger']);
+        }
+    }
+
+    /**
+     * @param Group $group
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
+    public function removeStudent(Group $group, $studentId)
+    {
+
+//        dd(\request()->all());
+        $student = User::whereId($studentId)->first();
+
+//dd($student);
+        try {
+            $student->group()->dissociate();
+            $student->save();
+            return redirect(route('viewGroupStudents', $group))->with('message', ['text' => 'Ученикот е отстранет', 'type' => 'success']);
+        } catch (\Exception $e) {
+            return redirect(route('viewGroupStudents', $group))->with('message', ['text' => 'Обидете се повторно!', 'type' => 'danger']);
+        }
+    }
+
+
+    /**
+     * @param Group $group
+     * @param Request $request
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
+    public function storeGroupSubject(Group $group, Request $request)
+    {
+
+//        dd($request->all());
+
+        $subject = Subject::whereId($request->subject_id)->firstOrFail();
+
+//        dd($subject->id);
+
+        if (!$group->hasSubject($subject))
+
+            try {
             $group->subjects()->attach($request->subject_id, ['teacher_id' => $request->teacher_id]);
             return redirect(route('viewGroups'))->with('message', ['text' => 'Предметот е додаден', 'type' => 'success']);
         } catch (\Exception $e) {
             return redirect(route('viewGroups'))->with('message', ['text' => 'Обидете се повторно!', 'type' => 'danger']);
         }
+
+        else
+
+            return  redirect(route('viewGroupSubjects', $group))->with('message', ['text' => 'Групата веќе го следи тој предмет', 'type' => 'warning']);
     }
+
 
 }

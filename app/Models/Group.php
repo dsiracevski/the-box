@@ -30,12 +30,25 @@ class Group extends Model
 
     public function subjects()
     {
-        return $this->belongsToMany(Subject::class, 'group_subject', 'group_id', 'subject_id');
+        return $this->belongsToMany(Subject::class, 'group_subject', 'group_id', 'subject_id')->withTimestamps();
     }
 
 
     public function teachers()
     {
-        return $this->belongsToMany(User::class, 'group_subject', 'group_id', 'teacher_id');
+        return $this->belongsToMany(User::class, 'group_subject', 'group_id', 'teacher_id')->withTimestamps();
+    }
+
+    /**
+     * Check if group already has selected subject
+     * @param $subject
+     * @return bool
+     */
+
+    public function hasSubject($subject)
+    {
+        return $this->subjects()
+            ->where('subject_id', $subject->id)
+            ->exists();
     }
 }

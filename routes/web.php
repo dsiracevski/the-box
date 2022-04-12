@@ -45,36 +45,37 @@ Route::controller(AuthController::class)->group(function () {
     Route::post('/logout', 'destroy')->name('destroySession')->middleware('auth');
 });
 
-Route::controller(SubjectController::class)->group(function () {
+Route::controller(SubjectController::class)->middleware('auth')->group(function () {
 
-    Route::get('/subjects', 'index')->name('viewSubjects')->middleware('auth');
-    Route::get('/subjects/new', 'create')->name('createSubject')->middleware('auth');
-    Route::get('/subjects/{subject}', 'show')->name('viewSubject')->middleware('auth');
-    Route::post('/subjects', 'store')->name('storeSubject')->middleware('auth');
-    Route::put('/subjects/{subject}', 'edit')->name('editSubject')->middleware('auth');
-    Route::delete('/subjects/{subject}', 'delete')->name('deleteSubject')->middleware('auth');
-
-
-});
-
-Route::controller(SentenceController::class)->group(function () {
-
-    Route::get('/sentences', 'index')->name('viewSentences')->middleware('auth');
-    Route::get('/sentences/{sentence}', 'view')->name('viewSentence')->middleware('auth');
-    Route::post('/sentences', 'store')->name('storeSentence')->middleware('auth');
-    Route::put('/sentences/{sentence}', 'edit')->name('editSentence')->middleware('auth');
-    Route::delete('/sentences/{sentence}', 'delete')->name('deleteSentence')->middleware('auth');
+    Route::get('/subjects', 'index')->name('viewSubjects');
+    Route::get('/subjects/new', 'create')->name('createSubject');
+    Route::get('/subjects/{subject}', 'show')->name('viewSubject');
+    Route::post('/subjects', 'store')->name('storeSubject');
+    Route::put('/subjects/{subject}', 'edit')->name('editSubject');
+    Route::delete('/subjects/{subject}', 'delete')->name('deleteSubject');
 
 
 });
 
-Route::controller(ExerciseController::class)->group(function () {
+Route::controller(SentenceController::class)->middleware('auth')->group(function () {
 
-    Route::get('/exercises', 'index')->name('viewExercises')->middleware('auth');
-    Route::get('/exercises/{exercise}', 'show')->name('viewExercise')->middleware('auth');
-    Route::post('/exercises', 'store')->name('storeExercise')->middleware('auth');
-    Route::put('/exercises/{exercise}', 'edit')->name('editExercise')->middleware('auth');
-    Route::delete('/exercises/{exercise}', 'delete')->name('deleteExercise')->middleware('auth');
+    Route::get('/sentences', 'index')->name('index-sentences');
+    Route::get('/sentences/new', 'create')->name('create-sentence');
+    Route::get('/sentences/{sentence}', 'show')->name('view-sentence');
+    Route::post('/sentences', 'store')->name('store-sentence');
+    Route::put('/sentences/{sentence}', 'edit')->name('edit-sentence');
+    Route::delete('/sentences/{sentence}', 'delete')->name('delete-sentence');
+
+
+});
+
+Route::controller(ExerciseController::class)->middleware('auth')->group(function () {
+
+    Route::get('/exercises', 'index')->name('viewExercises');
+    Route::get('/exercises/{exercise}', 'show')->name('viewExercise');
+    Route::post('/exercises', 'store')->name('storeExercise');
+    Route::put('/exercises/{exercise}', 'edit')->name('editExercise');
+    Route::delete('/exercises/{exercise}', 'delete')->name('deleteExercise');
 
 
 });
@@ -82,15 +83,19 @@ Route::controller(ExerciseController::class)->group(function () {
 Route::controller(GroupController::class)->middleware('auth')->group(function () {
 
     Route::get('/groups', 'index')->name('viewGroups');
+    Route::get('/groups/new', 'create')->name('createGroup');
     Route::get('/groups/{group}', 'show')->name('viewGroup');
-    Route::get('/groups/{group}/subject', 'addSubject')->name('addSubject');
-    Route::post('/groups/{group}/subject/', 'storeSubject')->name('storeSubject');
-    Route::get('/groups/{group}/students/', 'viewStudents')->name('viewGroupStudents')  ;
-    Route::get('/groups/{group}/subjects/', 'viewSubjects')->name('viewGroupSubjects');
+    Route::get('/groups/{group}/subject', 'addGroupSubject')->name('add-group-subject');
     Route::get('/groups/{group}/teachers/', 'viewTeachers')->name('viewGroupTeachers');
-    Route::post('/groups', 'store')->name('storeGroup')->middleware('auth');
+    Route::get('/groups/{group}/subjects/', 'viewSubjects')->name('viewGroupSubjects');
+    Route::get('/groups/{group}/students/', 'viewStudents')->name('viewGroupStudents');
+    Route::get('/groups/{group}/students/add', 'addGroupStudent')->name('add-group-student');
+    Route::post('/groups/{group}/students/store', 'storeGroupStudent')->name('store-group-student');
+    Route::post('/groups/{group}/subject/', 'storeGroupSubject')->name('store-group-subject');
+    Route::post('/groups', 'store')->name('storeGroup');
     Route::put('/groups/{group}', 'edit')->name('editGroup');
     Route::delete('/groups/{group}', 'delete')->name('deleteGroup');
+    Route::delete('/groups/{group}/students/{studentId}', 'removeStudent')->name('remove-group-student');
 
 
 });

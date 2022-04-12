@@ -27,4 +27,10 @@
         </div>
     </div>
 
+    <div class="container rounded-xl bg-white p-3">
+        <div class="w-max bg-purple-500 rounded-xl text-md p-2">
+            <a href="{{route('createGroup')}}">Додади нова група</a>
+        </div>
+    </div>
+
 @endsection
