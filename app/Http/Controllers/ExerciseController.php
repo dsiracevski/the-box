@@ -14,7 +14,6 @@ class ExerciseController extends Controller
         ]);
     }
 
-
     public function store()
     {
 

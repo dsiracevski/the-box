@@ -15,6 +15,11 @@ class SentenceController extends Controller
         ]);
     }
 
+    public function create()
+    {
+        return view('sentences.store');
+    }
+
     public function store()
     {
 
@@ -43,7 +48,7 @@ class SentenceController extends Controller
     public function edit(Sentence $sentence)
     {
         $attributes = request()->validate([
-            'body' => 'required',
+            'body' => '',
             'keyword' => ''
         ]);
 
