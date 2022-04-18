@@ -14,6 +14,11 @@ class SubjectController extends Controller
         ]);
     }
 
+    public function create()
+    {
+        return view('subjects.store');
+    }
+
 
     public function store()
     {
@@ -29,11 +34,6 @@ class SubjectController extends Controller
         } catch (\Exception $e) {
             return redirect(route('viewSubjects'))->with('message', ['text' => 'Обидете се повторно', 'type' => 'danger']);
         }
-    }
-
-    public function create()
-    {
-        return view('subjects.store');
     }
 
 

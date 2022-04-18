@@ -18,7 +18,7 @@
                     <li><a href="{{route('viewExercises')}}"
                            class="font-medium tracking-wide text-gray-700 transition-colors duration-200 hover:text-bg-purple-500">Вежби</a>
                     </li>
-                    <li><a href="{{route('index-sentences')}}"
+                    <li><a href="{{route('show-sentences')}}"
                            class="font-medium tracking-wide text-gray-700 transition-colors duration-200 hover:text-bg-purple-500">Реченици</a>
                     </li>
                     <li><a href="{{route('viewSubjects')}}"
@@ -48,7 +48,7 @@
                 <li class="">
                     <a
                         href="{{route('registerView')}}"
-                        class="inline-flex items-center justify-center h-12 px-6 font-medium tracking-wide text-white transition duration-200 rounded-xl shadow-md bg-purple-500 hover:bg-deep-purple-accent-700 focus:shadow-outline focus:outline-none"
+                        class="inline-flex items-center justify-center h-10 px-5 font-medium tracking-wide text-white transition duration-200 rounded-xl shadow-md bg-purple-500 hover:bg-deep-purple-accent-700 focus:shadow-outline focus:outline-none"
                     >Register
                     </a>
                 </li>
@@ -57,7 +57,7 @@
                     @csrf
                     <li>
                         <button type="submit"
-                                class="inline-flex items-center justify-center h-12 px-6 rounded-xl shadow-md bg-purple-500">
+                                class="inline-flex items-center justify-center h-10 px-5 rounded-xl shadow-md bg-purple-500">
                             Излез
                         </button>
                     </li>

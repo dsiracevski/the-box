@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Exercise;
+use App\Models\User;
 
 class ActivityController extends Controller
 {

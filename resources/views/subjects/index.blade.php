@@ -52,4 +52,11 @@
         </div>
     </div>
 
+    <div class="container rounded-xl bg-white p-3 mb-5">
+        <div class="w-max bg-purple-500 rounded-xl text-md p-2">
+            <a href="{{route('create-subject')}}">Додади нов предмет</a>
+        </div>
+    </div>
+
+
 @endsection

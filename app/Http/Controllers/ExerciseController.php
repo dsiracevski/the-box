@@ -3,10 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Models\Exercise;
+use App\Models\Sentence;
 use Illuminate\Http\Request;
 
 class ExerciseController extends Controller
 {
+    /**
+     * Index all Exercises
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
     public function index()
     {
         return view('exercises.index', [
@@ -14,35 +19,67 @@ class ExerciseController extends Controller
         ]);
     }
 
+
+    public function create()
+    {
+        $exTypes = Exercise::select('type')->pluck('type');
+
+//        $exTypes = array_unique($exTypes);
+
+        return view('exercises.create', [
+            'exType' => $exTypes->unique()
+        ]);
+    }
+
+
+    /**
+     * Store new Exercise
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
     public function store()
     {
 
-        $user = auth()->user();
+//        dd(\request()->all());
+
+//        $user = auth()->user();
 
         $attributes = request()->validate([
             'name' => 'required',
-            'type' => ''
+            'type' => 'required',
+            'author_id' => ''
         ]);
 
+//        dd($attributes);
+
         try {
-            $user->exercises()->create($attributes);
+            Exercise::create($attributes);
             return redirect(route('viewExercises'))->with('message', ['text' => 'Вежбата е додадена', 'type' => 'success']);
         } catch (\Exception $e) {
             return redirect(route('viewExercises'))->with('message', ['text' => 'Обидете се повторно!', 'type' => 'danger']);
         }
     }
 
+    /**
+     * Shows specific Exercise
+     * @param Exercise $exercise
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
     public function show(Exercise $exercise)
     {
         return view('exercises.show', [
-            'update' => Exercise::find($exercise)
+            'exercise' => Exercise::with('sentences', 'candidates')->withCount('sentences', 'candidates')->firstOrFail($exercise)
         ]);
     }
 
+    /**
+     * Updates Exercise model
+     * @param Exercise $exercise
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
     public function edit(Exercise $exercise)
     {
         $attributes = request()->validate([
-            'name' => 'required',
+            'name' => '',
             'type' => ''
         ]);
 
@@ -55,6 +92,11 @@ class ExerciseController extends Controller
     }
 
 
+    /**
+     * Removes Exercise model
+     * @param Exercise $exercise
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
     public function delete(Exercise $exercise)
     {
         try {
@@ -63,5 +105,33 @@ class ExerciseController extends Controller
         } catch (\Exception $e) {
             return redirect(route('viewExercises'))->with('message', ['text' => 'Обидете се повторно!', 'type' => 'danger']);
         }
+    }
+
+    /**
+     * Displays sentences for current Exercise model
+     * @param Exercise $exercise
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
+    public function showSentences(Exercise $exercise)
+    {
+        return view('exercises.show_sentences', [
+            'exercise' => $exercise,
+            'sentences' => $exercise->sentences()->get()
+        ]);
+    }
+
+    public function addSentences(Exercise $exercise)
+    {
+
+        // TODO can add single or multiple sentences
+
+    }
+
+    public function editSentence(Exercise $exercise, Sentence $sentence)
+    {
+
+        // TODO can edit sentences for current exercise
+
+
     }
 }
