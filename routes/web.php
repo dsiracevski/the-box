@@ -32,6 +32,7 @@ Route::controller(UserController::class)->group(function () {
 
     Route::get('/users/', 'index')->name('viewUsers')->middleware('auth');
     Route::get('/user/{user}', 'edit')->name('viewUser')->middleware('auth');
+    Route::get('/user/{user}/view', 'show')->name('view-user')->middleware('auth');
     Route::put('/user/{user}', 'update')->name('editUser')->middleware('auth');
     Route::post('/user/', 'create')->name('storeUser');
     Route::delete('/user/{user}/delete', 'destroy')->name('destroyUser')->middleware('auth');
@@ -48,22 +49,22 @@ Route::controller(AuthController::class)->group(function () {
 Route::controller(SubjectController::class)->middleware('auth')->group(function () {
 
     Route::get('/subjects', 'index')->name('viewSubjects');
-    Route::get('/subjects/new', 'create')->name('createSubject');
+    Route::get('/subjects/new', 'create')->name('create-subject');
     Route::get('/subjects/{subject}', 'show')->name('viewSubject');
-    Route::post('/subjects', 'store')->name('storeSubject');
+    Route::post('/subjects', 'store')->name('store-subject');
     Route::put('/subjects/{subject}', 'edit')->name('editSubject');
     Route::delete('/subjects/{subject}', 'delete')->name('deleteSubject');
-
 
 });
 
 Route::controller(SentenceController::class)->middleware('auth')->group(function () {
 
-    Route::get('/sentences', 'index')->name('index-sentences');
+    Route::get('/sentences', 'index')->name('show-sentences');
     Route::get('/sentences/new', 'create')->name('create-sentence');
-    Route::get('/sentences/{sentence}', 'show')->name('view-sentence');
+//    Route::get('/sentences/{sentence}', 'show')->name('view-sentence');
+    Route::get('/sentences/{sentence}', 'edit')->name('edit-sentence');
     Route::post('/sentences', 'store')->name('store-sentence');
-    Route::put('/sentences/{sentence}', 'edit')->name('edit-sentence');
+    Route::put('/sentences/{sentence}', 'update')->name('update-sentence');
     Route::delete('/sentences/{sentence}', 'delete')->name('delete-sentence');
 
 
@@ -72,11 +73,15 @@ Route::controller(SentenceController::class)->middleware('auth')->group(function
 Route::controller(ExerciseController::class)->middleware('auth')->group(function () {
 
     Route::get('/exercises', 'index')->name('viewExercises');
-    Route::get('/exercises/{exercise}', 'show')->name('viewExercise');
-    Route::post('/exercises', 'store')->name('storeExercise');
+    Route::get('/exercise/new', 'create')->name('create-exercise');
+    Route::get('/exercises/{exercise}', 'show')->name('show-exercise');
+    Route::post('/exercises', 'store')->name('store-exercise');
     Route::put('/exercises/{exercise}', 'edit')->name('editExercise');
     Route::delete('/exercises/{exercise}', 'delete')->name('deleteExercise');
-
+    Route::get('/exercises/{exercise}/sentences', 'showSentences')->name('sentences-show');
+    Route::get('/exercises/{exercise}/sentences/add', 'addSentences')->name('sentences-add');
+    Route::get('/exercises/{exercise}/sentence/{sentence}', 'editSentence')->name('edit-sentence');
+    Route::get('/exercises/{exercise}/candidates', 'showCandidates')->name('candidates-show');
 
 });
 
@@ -100,10 +105,7 @@ Route::controller(GroupController::class)->middleware('auth')->group(function ()
 
 });
 
-Route::controller(ActivityController::class)->group(function () {
-
-    Route::get('/exercises/{exercise}/sentences', 'showSentences')->name('allSentences')->middleware('auth');
-    Route::get('/exercises/{exercise}/candidates', 'showCandidates')->name('allCandidates')->middleware('auth');
+Route::controller(ActivityController::class)->middleware('auth')->group(function () {
 
 
 });

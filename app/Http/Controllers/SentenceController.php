@@ -8,6 +8,8 @@ use Illuminate\Http\Request;
 class SentenceController extends Controller
 {
 
+    // TODO add a new/edit sentence
+
     public function index()
     {
         return view('sentences.index', [
@@ -38,14 +40,34 @@ class SentenceController extends Controller
         }
     }
 
-    public function show(Sentence $sentence)
+//    public function show(Sentence $sentence)
+//    {
+//
+//        $body = $sentence->body;
+//        $body = str_replace(array('.', ',', '"', ';', ':'), '', $body);
+//        $body = explode(' ', $body);
+//
+//        return view('sentences.show', [
+//            'sentence' => Sentence::find($sentence),
+//            'body' => $body
+//        ]);
+//
+//    }
+
+    public function edit(Sentence $sentence)
     {
-        return view('sentences.show', [
-            'sentence' => Sentence::find($sentence)
+
+        $body = $sentence->body;
+        $body = str_replace(array('.', ',', '"', ';', ':'), '', $body);
+        $body = explode(' ', $body);
+
+        return view('sentences.edit', [
+            'sentence' => Sentence::find($sentence)->firstOrFail(),
+            'body' => $body
         ]);
     }
 
-    public function edit(Sentence $sentence)
+    public function update(Sentence $sentence)
     {
         $attributes = request()->validate([
             'body' => '',
