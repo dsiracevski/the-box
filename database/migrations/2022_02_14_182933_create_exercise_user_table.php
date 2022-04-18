@@ -18,7 +18,7 @@ return new class extends Migration
             $table->foreignId('exercise_id')->references('id')->on('exercises');
             $table->foreignId('user_id')->references('id')->on('users');
             $table->boolean('is_completed')->default(false);
-            $table->decimal('score', 6,3)->nullable();
+            $table->decimal('score', 4,2)->nullable();
             $table->timestamps();
         });
     }
