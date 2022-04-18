@@ -79,5 +79,19 @@ class User extends Authenticatable
         $this->attributes['password'] = bcrypt($password);
     }
 
+    /**
+     * Return only students
+     * @param $query
+     * @return mixed
+     */
+    public function scopeStudents()
+    {
+        return $this->where('role', 'student');
+    }
 
+
+    public function scopeTeachers()
+    {
+        return $this->where('role', 'teacher');
+    }
 }

@@ -100,7 +100,7 @@ class GroupController extends Controller
         return view('groups.add_subject', [
             'group' => $group,
             'subjects' => Subject::all(),
-            'teachers' => User::all()->where('role', 'teacher')
+            'teachers' => User::teachers()->get()
         ]);
     }
 
@@ -111,7 +111,7 @@ class GroupController extends Controller
     public function addGroupStudent(Group $group)
     {
         return view('groups.add_student', [
-            'students' => User::whereRole('student')->whereDoesntHave('group')->orderBy('id')->get(),
+            'students' => User::students()->whereDoesntHave('group')->orderBy('id')->get(),
             'group' => $group
         ]);
     }
