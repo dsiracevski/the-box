@@ -30,13 +30,13 @@ class Exercise extends Model
 
     public function candidates()
     {
-        return $this->belongsToMany(User::class, 'exercise_user', 'exercise_id', 'user_id');
+        return $this->belongsToMany(User::class, 'exercise_user', 'exercise_id', 'user_id')->withTimestamps();
     }
 
 
     public function sentences()
     {
-        return $this->belongsToMany(Sentence::class, 'activity', 'exercise_id', 'sentence_id');
+        return $this->belongsToMany(Sentence::class, 'activity', 'exercise_id', 'sentence_id')->withTimestamps();
     }
 
 }

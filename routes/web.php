@@ -61,8 +61,8 @@ Route::controller(SentenceController::class)->middleware('auth')->group(function
 
     Route::get('/sentences', 'index')->name('show-sentences');
     Route::get('/sentences/new', 'create')->name('create-sentence');
-//    Route::get('/sentences/{sentence}', 'show')->name('view-sentence');
-    Route::get('/sentences/{sentence}', 'edit')->name('edit-sentence');
+    Route::get('/sentences/{sentence}', 'show')->name('view-sentence');
+    Route::get('/sentences/{sentence}/edit', 'edit')->name('edit-sentence');
     Route::post('/sentences', 'store')->name('store-sentence');
     Route::put('/sentences/{sentence}', 'update')->name('update-sentence');
     Route::delete('/sentences/{sentence}', 'delete')->name('delete-sentence');
@@ -79,7 +79,8 @@ Route::controller(ExerciseController::class)->middleware('auth')->group(function
     Route::put('/exercises/{exercise}', 'edit')->name('editExercise');
     Route::delete('/exercises/{exercise}', 'delete')->name('deleteExercise');
     Route::get('/exercises/{exercise}/sentences', 'showSentences')->name('sentences-show');
-    Route::get('/exercises/{exercise}/sentences/add', 'addSentences')->name('sentences-add');
+    Route::get('/exercises/{exercise}/sentences/add', 'addSentences')->name('add-exercise-sentences');
+    Route::post('/exercises/{exercise}/sentences/attach', 'attachSentences')->name('attach-sentences');
     Route::get('/exercises/{exercise}/sentence/{sentence}', 'editSentence')->name('edit-sentence');
     Route::get('/exercises/{exercise}/candidates', 'showCandidates')->name('candidates-show');
 
