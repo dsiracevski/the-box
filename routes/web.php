@@ -81,8 +81,10 @@ Route::controller(ExerciseController::class)->middleware('auth')->group(function
     Route::get('/exercises/{exercise}/sentences', 'showSentences')->name('sentences-show');
     Route::get('/exercises/{exercise}/sentences/add', 'addSentences')->name('add-exercise-sentences');
     Route::post('/exercises/{exercise}/sentences/attach', 'attachSentences')->name('attach-sentences');
+    Route::get('/exercises/{exercise}/sentences/detach', 'removeSentences')->name('remove-sentences');
     Route::get('/exercises/{exercise}/sentence/{sentence}', 'editSentence')->name('edit-sentence');
     Route::get('/exercises/{exercise}/candidates', 'showCandidates')->name('candidates-show');
+    Route::delete('/exercises/{exercise}/sentences/detach', 'detachSentences')->name('detach-sentences');
 
 });
 
