@@ -53,7 +53,7 @@
             <div class="table-row-group">
                 @foreach($teachers as $user)
                     <div class="table-row">
-                        {{--                @dd($user)--}}
+{{--                                        @dd($user)--}}
                         {{--                        <div class="table-cell py-3">{{$loop->iteration}}</div>--}}
                         <div class="table-cell py-3 text-purple-500"><a
                                 href="{{route('viewUser', [$user])}}">{{$user->name}}</a></div>

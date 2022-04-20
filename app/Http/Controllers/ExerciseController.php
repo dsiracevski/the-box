@@ -160,9 +160,7 @@ class ExerciseController extends Controller
     public function attachSentences(Exercise $exercise)
     {
 
-        $sentences = collect(request()->sentence);
-
-        $sentences = $sentences->toArray();
+        $sentences = request()->sentence;
 
         try {
             $exercise->sentences()->attach($sentences);
@@ -181,9 +179,7 @@ class ExerciseController extends Controller
     public function detachSentences(Exercise $exercise)
     {
 
-        $sentences = collect(request()->sentence);
-
-        $sentences = $sentences->toArray();
+        $sentences = request()->sentence;
 
         try {
             $exercise->sentences()->detach($sentences);
