@@ -122,6 +122,19 @@ class ExerciseController extends Controller
     }
 
     /**
+     *Displays sentences for current Exercise model
+     * @param Exercise $exercise
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
+    public function removeSentences(Exercise $exercise)
+    {
+        return view('exercises.remove_sentences', [
+            'exercise' => $exercise,
+            'sentences' => $exercise->sentences()->get()
+        ]);
+    }
+
+    /**
      * Retrieves all Sentence models that aren't already associated with the given Exercise model
      * @param Exercise $exercise
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
@@ -154,6 +167,27 @@ class ExerciseController extends Controller
         try {
             $exercise->sentences()->attach($sentences);
             return redirect(route('sentences-show', $exercise))->with('message', ['text' => 'Реченицата е додадена', 'type' => 'success']);
+        } catch (\Exception $e) {
+            return redirect(route('show-sentences'))->with('message', ['text' => 'Обидете се повторно!', 'type' => 'danger']);
+        }
+
+    }
+
+    /**
+     *Sends a single or array of IDs to detach
+     * @param Exercise $exercise
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
+    public function detachSentences(Exercise $exercise)
+    {
+
+        $sentences = collect(request()->sentence);
+
+        $sentences = $sentences->toArray();
+
+        try {
+            $exercise->sentences()->detach($sentences);
+            return redirect(route('sentences-show', $exercise))->with('message', ['text' => 'Реченицата е отсранета', 'type' => 'success']);
         } catch (\Exception $e) {
             return redirect(route('show-sentences'))->with('message', ['text' => 'Обидете се повторно!', 'type' => 'danger']);
         }

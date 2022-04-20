@@ -38,4 +38,10 @@
         </div>
     </div>
 
+    <div class="container rounded-xl p-3 mb-5">
+        <div class="w-max bg-purple-400 shadow-2xl rounded-xl text-md p-2">
+            <a href="{{route('remove-sentences', $exercise)}}">Отстрани реченици</a>
+        </div>
+    </div>
+
 @endsection
