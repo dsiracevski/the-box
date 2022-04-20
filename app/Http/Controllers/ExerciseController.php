@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Exercise;
 use App\Models\Sentence;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 
 class ExerciseController extends Controller
@@ -67,7 +68,7 @@ class ExerciseController extends Controller
     public function show(Exercise $exercise)
     {
         return view('exercises.show', [
-            'exercise' => Exercise::with('sentences', 'candidates')->withCount('sentences', 'candidates')->firstOrFail($exercise)
+            'exercise' => Exercise::where('id', $exercise->id)->with('sentences', 'candidates')->withCount('sentences', 'candidates')->first()
         ]);
     }
 
@@ -120,10 +121,42 @@ class ExerciseController extends Controller
         ]);
     }
 
+    /**
+     * Retrieves all Sentence models that aren't already associated with the given Exercise model
+     * @param Exercise $exercise
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
     public function addSentences(Exercise $exercise)
     {
 
-        // TODO can add single or multiple sentences
+
+        return view('exercises.add_sentences', [
+            'sentences' => Sentence::whereDoesntHave('exercises', function (Builder $query) use ($exercise) {
+                $query->where('exercises.id', $exercise->id);
+            })->get(),
+            'exercise' => Exercise::whereId($exercise->id)->firstOrFail()
+        ]);
+
+    }
+
+    /**
+     * Sends a single or array of IDs to attach
+     * @param Exercise $exercise
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
+    public function attachSentences(Exercise $exercise)
+    {
+
+        $sentences = collect(request()->sentence);
+
+        $sentences = $sentences->toArray();
+
+        try {
+            $exercise->sentences()->attach($sentences);
+            return redirect(route('sentences-show', $exercise))->with('message', ['text' => 'Реченицата е додадена', 'type' => 'success']);
+        } catch (\Exception $e) {
+            return redirect(route('show-sentences'))->with('message', ['text' => 'Обидете се повторно!', 'type' => 'danger']);
+        }
 
     }
 

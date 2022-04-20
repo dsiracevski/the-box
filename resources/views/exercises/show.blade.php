@@ -39,7 +39,7 @@
 
     <div class="container rounded-xl p-3 mb-5">
         <div class="w-max bg-purple-400 shadow-2xl rounded-xl text-md p-2">
-            <a href="{{route('create-exercise')}}">Додади реченици</a>
+            <a href="{{route('add-exercise-sentences', $exercise)}}">Додади реченици</a>
         </div>
     </div>
     {{--    Add accordion for sentences/candidates/etc...--}}
